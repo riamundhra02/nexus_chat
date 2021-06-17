@@ -6,6 +6,14 @@ const fs = require("file-system");
 const dotenv = require("dotenv");
 const expand = require("dotenv-expand");
 
+Object.defineProperty(Array.prototype, 'flat', {
+  value: function(depth = 1) {
+    return this.reduce(function (flat, toFlatten) {
+      return flat.concat((Array.isArray(toFlatten) && (depth>1)) ? toFlatten.flat(depth-1) : toFlatten);
+    }, []);
+  }
+});
+
 const keyPrompt = `
 *** A PubNub account is required. ***
 Visit the PubNub dashboard to create an account or login.
