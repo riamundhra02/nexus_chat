@@ -28,9 +28,10 @@ const EmojiInput = ({ value, onSelection }: EmojiInputProps) => {
         };
         return (
           <EmojiPicker
-            emoji=""
-            title=""
-            native={true}
+            emoji="mortar_board"
+            title="Ascademy"
+            set="twitter"
+            native={false}
             onSelect={addEmoji}
             darkMode={theme.custom.dark}
             color={theme.colors.active}

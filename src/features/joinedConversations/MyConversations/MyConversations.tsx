@@ -139,7 +139,7 @@ const MyConversations = () => {
   return (
     <>
       <FlexRow justifyContent="space-between" mx={6} marginBottom={1}>
-        <Heading variant={HeadingVariants.INVERSE}>Conversations</Heading>
+        <Heading variant={HeadingVariants.INVERSE}>Groupings</Heading>
         <Icon
           icon={Icons.Add}
           color={"onPrimary"}

@@ -1,6 +1,8 @@
 import React, { FunctionComponent } from "react";
+import { Fragment } from "react";
 import Styled, { css } from "styled-components/macro";
 import emojiRegex from "emoji-regex";
+import sanitizeHtml from "sanitize-html";
 
 export enum TextMessageSizes {
   BIG = "BIG"
@@ -57,7 +59,19 @@ export const TextMessage: FunctionComponent<TextMessageProps> = ({
       size={size || (isEmphasized(text) ? TextMessageSizes.BIG : undefined)}
       {...rest}
     >
-      {text}
+      <span
+        dangerouslySetInnerHTML={{
+          __html: sanitizeHtml(text, {
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+            allowedAttributes: {
+              img: ["class", "src"]
+            },
+            allowedIframeHostnames: ["www.youtube.com"],
+            allowedSchemes: ["https"],
+            disallowedTagsMode: "escape"
+          })
+        }}
+      />
     </Wrapper>
   );
 };

@@ -12,13 +12,18 @@ import { sendMessage } from "../sendMessage";
 import { getLoggedInUserId } from "features/authentication/authenticationModel";
 import { FlexRow, StyledBox } from "foundations/components/layout";
 import { Icon, Icons, Textarea } from "foundations/components/presentation";
+// import { Twemoji } from "react-emoji-render";
+// import sanitizeHtml from 'sanitize-html';
 /**
  * Expand the height of the input box as multiple lines of text are entered.
  */
-const autoExpand = (el: HTMLTextAreaElement) => {
+const autoExpand = (el: HTMLDivElement) => {
   setTimeout(function () {
-    el.style.cssText = "height:auto; padding:0";
-    el.style.cssText = "height:" + el.scrollHeight + "px";
+    el.style.cssText = "height:auto; padding:0; max-height: 5rem;";
+    el.style.cssText =
+      "height:" +
+      (el.clientHeight < el.scrollHeight ? el.clientHeight : el.scrollHeight) +
+      "px;";
   }, 0);
 };
 
@@ -47,6 +52,8 @@ type TextMessageEditorProps = {
   updateDraft: (message: DraftTextMessage) => void;
 };
 
+declare const twemoji: any;
+
 /**
  * Edit a draft Text Message
  */
@@ -60,28 +67,50 @@ export const TextMessageEditor = ({
   const theme = useContext(ThemeContext);
   const touch = useMediaQuery(theme.mediaQueries.touch);
   const text = message.text;
-  const textareaRef = useRef<HTMLTextAreaElement>(
-    document.createElement("textarea")
-  );
+  const textareaRef = useRef<HTMLDivElement>(document.createElement("div"));
 
-  const textChanged = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    updateDraft(newTextDraft(message, e.target.value));
+  const textChanged = (e: React.ChangeEvent<HTMLDivElement>) => {
+    // console.log(e.target.innerHTML!);
+    e.target.setAttribute("data-value", e.target.innerHTML!);
+    updateDraft(newTextDraft(message, e.target.innerHTML!));
+    twemoji.parse(document.body, {
+      folder: "svg",
+      ext: ".svg"
+    });
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter" && !(e.shiftKey || touch)) {
       const draft = newTextDraft(message, text);
       if (isDraftModified(draft)) {
         sendDraft(draft);
       }
       e.preventDefault();
+      textareaRef.current.innerHTML = "Enter text here";
     }
-    autoExpand(e.target as HTMLTextAreaElement);
+    // textareaRef.current.setAttribute('data-value', textareaRef.current.innerText);
+    autoExpand(e.target as HTMLDivElement);
+  };
+
+  const placeCaretAtEnd = (el: HTMLDivElement) => {
+    el.focus();
+    if (
+      typeof window.getSelection != "undefined" &&
+      typeof document.createRange != "undefined"
+    ) {
+      var range = document.createRange();
+      range.selectNodeContents(el);
+      range.collapse(false);
+      var sel = window.getSelection();
+      sel?.removeAllRanges();
+      sel?.addRange(range);
+    }
   };
 
   const emojiInserted = (messageWithEmoji: string) => {
     updateDraft(newTextDraft(message, messageWithEmoji));
-    textareaRef.current.focus();
+    textareaRef.current.innerHTML = messageWithEmoji;
+    placeCaretAtEnd(textareaRef.current);
   };
 
   // immediately send gifs (without creating a draft message)
@@ -105,10 +134,11 @@ export const TextMessageEditor = ({
       <FlexRow flexGrow={1}>
         <Textarea
           ref={textareaRef}
-          rows={1}
-          value={text}
-          onChange={textChanged}
+          // rows={1}
+          data-value={text}
+          onInput={textChanged}
           onKeyPress={handleKeyPress}
+          contentEditable={true}
           placeholder="Type Message"
         />
       </FlexRow>
