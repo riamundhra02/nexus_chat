@@ -23,7 +23,7 @@ export const TextMessageDisplay = ({
       height={100}
       overflow={true}
       debounce={true}
-      offset={4000}
+      offset={100}
       placeholder={
         <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
       }
