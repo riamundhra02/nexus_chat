@@ -112,6 +112,7 @@ const EmojiSuggestion = ({ value, onSelection }: EmojiInputProps) => {
           bg="backgrounds.panel"
           position="absolute"
           bottom="0"
+          right="0"
           border="light"
           borderRadius="light"
         >

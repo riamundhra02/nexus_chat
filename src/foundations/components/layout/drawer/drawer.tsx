@@ -12,6 +12,8 @@ interface DrawerProps extends BackgroundProps {
   wide?: boolean;
   /** Modify the default transition parameters. Framer-motion is used internally */
   transition?: Transition;
+
+  className?: string;
 }
 
 const Wrapper = Styled(motion.section)<DrawerProps>`

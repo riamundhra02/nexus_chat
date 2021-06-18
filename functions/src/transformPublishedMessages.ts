@@ -3,6 +3,7 @@ import { Transformer } from "transformers/types";
 import attachLinks from "transformers/attachLinks";
 import applyGiphyCommand from "transformers/applyGiphyCommand";
 import filterProfanity from "transformers/filterProfanity";
+import applyMathjsCommand from "transformers/applyMathjsCommand";
 
 // basic type guard
 const isMessage = (message: object): message is BaseMessage => {
@@ -14,6 +15,7 @@ const messageTransformers: Transformer<BaseMessage>[] = [
   filterProfanity,
   applyGiphyCommand,
   attachLinks,
+  applyMathjsCommand
 ];
 
 const applyTransformers = async <T>(
@@ -29,7 +31,7 @@ const applyTransformers = async <T>(
   );
 };
 
-const beforePublish: PNFunction.BeforePublish = async (request) => {
+const beforePublish: PNFunction.BeforePublish = async request => {
   const message = request.message;
   if (isMessage(message)) {
     request.message = await applyTransformers(messageTransformers, message);

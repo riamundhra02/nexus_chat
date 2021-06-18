@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from "react";
-import { Fragment } from "react";
+// import {Fragment} from 'react';
 import Styled, { css } from "styled-components/macro";
 import emojiRegex from "emoji-regex";
 import sanitizeHtml from "sanitize-html";
+declare const he: any;
 
 export enum TextMessageSizes {
   BIG = "BIG"
@@ -49,11 +50,42 @@ const isEmphasized = (msg: string): boolean => {
   }
 };
 
+declare const marked: any;
+declare const mermaid: any;
+
 export const TextMessage: FunctionComponent<TextMessageProps> = ({
   text,
   size,
   ...rest
 }) => {
+  // var result = text.match(/<markdown>(.*?)<\/markdown>/g).map(function(val){
+  //   return val.replace(/<\/?b>/g,'');
+  // }).forEach(function (element) {
+  //   marked()
+  // });
+  // text = mermaid.render(text);
+
+  if (text.startsWith("/mermaid ")) {
+    try {
+      text = mermaid.render(
+        "html",
+        he.decode(text.replace("/mermaid ", "")),
+        undefined
+      );
+      // console.log(text);
+      return (
+        <Wrapper
+          size={size || (isEmphasized(text) ? TextMessageSizes.BIG : undefined)}
+          {...rest}
+        >
+          <span dangerouslySetInnerHTML={{ __html: text }} />
+        </Wrapper>
+      );
+    } catch (error) {
+      // console.log(error);
+    }
+  }
+
   return (
     <Wrapper
       size={size || (isEmphasized(text) ? TextMessageSizes.BIG : undefined)}
@@ -61,14 +93,18 @@ export const TextMessage: FunctionComponent<TextMessageProps> = ({
     >
       <span
         dangerouslySetInnerHTML={{
-          __html: sanitizeHtml(text, {
-            allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img"]),
+          __html: sanitizeHtml(marked(text), {
+            allowedTags: sanitizeHtml.defaults.allowedTags.concat([
+              "img",
+              "iframe"
+            ]),
             allowedAttributes: {
-              img: ["class", "src"]
+              img: ["class", "src"],
+              iframe: ["src"]
             },
             allowedIframeHostnames: ["www.youtube.com"],
             allowedSchemes: ["https"],
-            disallowedTagsMode: "escape"
+            disallowedTagsMode: "discard"
           })
         }}
       />

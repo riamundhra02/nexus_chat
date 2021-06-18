@@ -3,6 +3,8 @@ import { AttachmentDisplay } from "../AttachmentDisplay";
 import { TextMessage as TextMessageModel } from "../messageModel";
 import { TextMessage } from "foundations/components/chat";
 import { StyledBox } from "foundations/components/layout";
+import LazyLoad from "react-lazyload";
+import Loader from "react-loader-spinner";
 
 type TextMessageProps = {
   message: TextMessageModel;
@@ -17,7 +19,15 @@ export const TextMessageDisplay = ({
   parentKey
 }: TextMessageProps) => {
   return (
-    <>
+    <LazyLoad
+      height={100}
+      overflow={true}
+      debounce={true}
+      offset={4000}
+      placeholder={
+        <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
+      }
+    >
       <TextMessage text={message.text} />
       {message.attachments?.map((attachment, index) => (
         <StyledBox marginTop="1">
@@ -27,6 +37,6 @@ export const TextMessageDisplay = ({
           />
         </StyledBox>
       ))}
-    </>
+    </LazyLoad>
   );
 };

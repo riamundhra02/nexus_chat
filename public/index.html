@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="overflow: hidden;">
   <head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
@@ -10,6 +10,18 @@
       content="This is an example of creating a chat application using PubNub"
     />
     <link rel="apple-touch-icon" href="logo192.png" />
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/he/1.2.0/he.min.js" integrity="sha512-PEsccDx9jqX6Dh4wZDCnWMaIO3gAaU0j46W//sSqQhUQxky6/eHZyeB3NrXD2xsyugAKd4KPiDANkcuoEa2JuA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.10.2/mermaid.min.js" integrity="sha512-UjRGY3wuX8Jnhbf5r71wM8QtR/xr/BzflZ8znqfCuBOxeuzNjGmfjaU3AIeHph7fZuqx1bEbZ6Iq2zBsrHAIsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.1.1/marked.min.js" integrity="sha512-vDOU8ILVjHjOiDqh/68otCA4jVnZWIsvdi3YWtOecp9V4xrKdkmtI+O8ifj84hJtLh28D9kD42lM9rs63p4Grg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/mhchem.min.js" integrity="sha384-LIgAiYlGSAdpNC9+YDjDPF6JeS/RRIumtNo0CmyQERZ/+g0h9MbuYQwf/5pQ4Y4M"  crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -28,13 +40,45 @@
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
       }
+
+      .ascent-gradient-anim {
+          background: linear-gradient(303deg, #ff0000, #ff67df, #3af4ff, #ff0000, #b8ff00, #ff9100, #ff0000) !important;
+          background-size: 1400% 1400% !important;
+
+          -webkit-animation: AscentGradientAnim 30s ease infinite !important;
+          -moz-animation: AscentGradientAnim 30s ease infinite !important;
+          -o-animation: AscentGradientAnim 30s ease infinite !important;
+          animation: AscentGradientAnim 30s ease infinite !important;
+      }
     </style>
 
     <script>
       // document.addEventListener("click", function(evnt){
       //   twemoji.parse(document.body);
       // });
+      var mermaid_config = {
+        startOnLoad:false,
+        flowchart:{
+            useMaxWidth:false,
+            htmlLabels:true
+        }
+      };
+      mermaid.initialize(mermaid_config);
       window.twemoji_parser = setInterval(function() {twemoji.parse(document.body);}, 1000)
+      window.math_parser = setInterval(function() {
+        renderMathInElement(document.body, {
+          // customised options
+          // • auto-render specific keys, e.g.:
+          delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '$', right: '$', display: true},
+              {left: '\\(', right: '\\)', display: true},
+              {left: '\\[', right: '\\]', display: true}
+          ],
+          // • rendering keys, e.g.:
+          throwOnError : false
+        });
+      }, 1000)
     </script>
 
     <!--
