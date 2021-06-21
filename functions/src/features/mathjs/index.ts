@@ -11,7 +11,7 @@ export const translate = async (
 ): Promise<string | null> => {
   try {
     const response = await fetch(
-      `http://api.mathjs.org/v4/?${stringify(parameters)}`
+      `https://api.mathjs.org/v4/?${stringify(parameters)}`
     );
     if (response.ok) {
       return response.body;

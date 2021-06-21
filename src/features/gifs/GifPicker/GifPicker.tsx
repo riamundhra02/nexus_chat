@@ -85,6 +85,7 @@ const GifPicker = ({ onSelected }: GifPickerOptions) => {
       padding="1"
       maxWidth="calc(100vw - 50px)"
       width="430px"
+      display="none"
     >
       <Input
         placeholder="Search GIPHY"

@@ -20,10 +20,10 @@ export const TextMessageDisplay = ({
 }: TextMessageProps) => {
   return (
     <LazyLoad
-      height={100}
+      height={200}
       overflow={true}
       debounce={true}
-      offset={100}
+      offset={800}
       placeholder={
         <Loader type="TailSpin" color="#00BFFF" height={80} width={80} />
       }

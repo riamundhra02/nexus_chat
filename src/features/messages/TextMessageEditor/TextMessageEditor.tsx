@@ -27,6 +27,8 @@ const autoExpand = (el: HTMLDivElement) => {
   }, 0);
 };
 
+declare const he: any;
+
 /**
  * Update the text field on a draft text message by returning a new object if
  * the new text is different than the text in the old object.
@@ -42,7 +44,7 @@ const newTextDraft = (
   return {
     type: MessageType.Text,
     senderId: draft.senderId,
-    text: newText
+    text: he.decode(newText) // Decoding HTML entities seems to break GIPHY.
   };
 };
 
@@ -66,7 +68,7 @@ export const TextMessageEditor = ({
   const userId = useSelector(getLoggedInUserId);
   const theme = useContext(ThemeContext);
   const touch = useMediaQuery(theme.mediaQueries.touch);
-  const text = message.text;
+  const text = he.decode(message.text);
   const textareaRef = useRef<HTMLDivElement>(document.createElement("div"));
 
   const textChanged = (e: React.ChangeEvent<HTMLDivElement>) => {
@@ -111,6 +113,16 @@ export const TextMessageEditor = ({
     updateDraft(newTextDraft(message, messageWithEmoji));
     textareaRef.current.innerHTML = messageWithEmoji;
     placeCaretAtEnd(textareaRef.current);
+  };
+
+  const onPastePlainText = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    var pastedText = undefined;
+    if (e.clipboardData && e.clipboardData.getData) {
+      pastedText = e.clipboardData.getData("text/plain");
+    }
+    textareaRef.current.innerText = pastedText!;
+    e.preventDefault();
+    return false;
   };
 
   // immediately send gifs (without creating a draft message)

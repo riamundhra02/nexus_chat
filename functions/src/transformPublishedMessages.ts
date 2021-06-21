@@ -2,8 +2,8 @@ import { BaseMessage } from "sharedTypes/messageModel";
 import { Transformer } from "transformers/types";
 import attachLinks from "transformers/attachLinks";
 import applyGiphyCommand from "transformers/applyGiphyCommand";
-import filterProfanity from "transformers/filterProfanity";
 import applyMathjsCommand from "transformers/applyMathjsCommand";
+import applyKrokiCommand from "transformers/applyKrokiCommand";
 
 // basic type guard
 const isMessage = (message: object): message is BaseMessage => {
@@ -12,10 +12,11 @@ const isMessage = (message: object): message is BaseMessage => {
 
 // all the transformers for your application
 const messageTransformers: Transformer<BaseMessage>[] = [
-  filterProfanity,
+  // filterProfanity,
   applyGiphyCommand,
   attachLinks,
-  applyMathjsCommand
+  applyMathjsCommand,
+  applyKrokiCommand
 ];
 
 const applyTransformers = async <T>(

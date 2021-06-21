@@ -3,7 +3,9 @@ import React, { FunctionComponent } from "react";
 import Styled, { css } from "styled-components/macro";
 import emojiRegex from "emoji-regex";
 import sanitizeHtml from "sanitize-html";
-declare const he: any;
+import DOMPurify from "dompurify";
+import { DOMParser } from "xmldom";
+// declare const he: any;
 
 export enum TextMessageSizes {
   BIG = "BIG"
@@ -51,7 +53,7 @@ const isEmphasized = (msg: string): boolean => {
 };
 
 declare const marked: any;
-declare const mermaid: any;
+// declare const mermaid: any;
 
 export const TextMessage: FunctionComponent<TextMessageProps> = ({
   text,
@@ -65,26 +67,48 @@ export const TextMessage: FunctionComponent<TextMessageProps> = ({
   // });
   // text = mermaid.render(text);
 
-  if (text.startsWith("/mermaid ")) {
-    try {
-      text = mermaid.render(
-        "html",
-        he.decode(text.replace("/mermaid ", "")),
-        undefined
-      );
-      // console.log(text);
+  // if (text.startsWith("/mermaid ")) {
+  //   try {
+  //     text = mermaid.render(
+  //       "html",
+  //       he.decode(text.replace("/mermaid ", "")),
+  //       undefined
+  //     );
+  //     // console.log(text);
+  //     return (
+  //       <Wrapper
+  //         size={size || (isEmphasized(text) ? TextMessageSizes.BIG : undefined)}
+  //         {...rest}
+  //       >
+  //         <span dangerouslySetInnerHTML={{ __html: text }} />
+  //       </Wrapper>
+  //     );
+  //   } catch (error) {
+  //     // console.log(error);
+  //   }
+  // }
+
+  try {
+    var dom = new DOMParser().parseFromString(text, "text/xml");
+    if (dom.getElementsByTagName("svg").length > 0) {
       return (
         <Wrapper
           size={size || (isEmphasized(text) ? TextMessageSizes.BIG : undefined)}
           {...rest}
         >
-          <span dangerouslySetInnerHTML={{ __html: text }} />
+          <span
+            style={{ maxWidth: "95%", overflowX: "clip" }}
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(text)
+            }}
+          />
         </Wrapper>
       );
-    } catch (error) {
-      // console.log(error);
     }
-  }
+  } catch (e) {}
+
+  // If parsing fails or there are no SVG elements in the root level of the DOM,
+  // Use a strict version of the HTML sanitizer that removes styling info.
 
   return (
     <Wrapper
