@@ -88,7 +88,8 @@ export const TextMessageEditor = ({
         sendDraft(draft);
       }
       e.preventDefault();
-      textareaRef.current.innerHTML = "Enter text here";
+      textareaRef.current.innerHTML = "";
+      textareaRef.current.setAttribute("data-value", "");
     }
     // textareaRef.current.setAttribute('data-value', textareaRef.current.innerText);
     autoExpand(e.target as HTMLDivElement);

@@ -34,9 +34,9 @@ const Wrapper = Styled.div<TextWrapperProps>`
   line-height: 1.5;
   padding: ${p => p.theme.space[4]};
   text-align: left;
-  white-space: pre-wrap;
-  width: fit-content;
-  word-break: break-word;
+  white-space: pre-wrap !important;
+  width: fit-content !important;
+  word-break: break-word !important;
 
   ${props => props.size === TextMessageSizes.BIG && BigMessage}
 `;

@@ -34,11 +34,23 @@
     />
 
     <style>
+      [class*="flex-column"][class*="styled-box"] > * > [class*="text-message"] * {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        text-align: left;
+        white-space: pre-wrap !important;
+        /* width: fit-content !important; */
+        word-break: break-word !important;
+      }
       img.emoji {
         height: 1em;
         width: 1em;
         margin: 0 .05em 0 .1em;
         vertical-align: -0.1em;
+      }
+
+      *[data-value=""] {
+        content: attr(placeholder) !important;
       }
 
       .ascent-gradient-anim {
