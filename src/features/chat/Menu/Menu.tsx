@@ -47,7 +47,7 @@ const Menu = () => {
 
       <StyledBox padding={6}>
         <FlexRow>
-          <Icon icon={Icons.Logo} title="Ascademy" />
+          <Icon icon={Icons.Logo} title="Nexus" />
           <StyledBox paddingLeft={4}>
             <FlexColumn minHeight={1}>
               <Heading variant={HeadingVariants.INVERSE}>

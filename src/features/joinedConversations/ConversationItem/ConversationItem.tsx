@@ -36,7 +36,7 @@ const ConversationItem = ({
   unreadMessageCount
 }: ConversationItemProps) => {
   const [isHovering, hoverProps] = useHover({ mouseEnterDelayMS: 0 });
-  const canLeave: boolean = id !== DEFAULT_CONVERSATION;
+  const canLeave: boolean = false;
   const theme = useContext(ThemeContext);
   const isTouch = useMediaQuery(theme.mediaQueries.touch);
   const color = getUniqueColor(

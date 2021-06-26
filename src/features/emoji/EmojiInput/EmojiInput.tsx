@@ -29,7 +29,7 @@ const EmojiInput = ({ value, onSelection }: EmojiInputProps) => {
         return (
           <EmojiPicker
             emoji="mortar_board"
-            title="Ascademy"
+            title="Nexus"
             set="twitter"
             native={false}
             onSelect={addEmoji}

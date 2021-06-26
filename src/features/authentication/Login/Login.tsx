@@ -37,7 +37,7 @@ const Login = () => {
     if (loggingIn || loggedIn || userId !== "") {
       return;
     }
-    const randomUserId = KnownIds[Math.floor(Math.random() * KnownIds.length)];
+    const randomUserId = "user_a673547880824a0687b3041af36a5de4";
     setUserId(randomUserId);
     dispatch(login(randomUserId));
   };
@@ -85,14 +85,14 @@ const Login = () => {
 
   return (
     <FlexColumn
-      py={[0, "10vh"]}
-      px={[0, "15%"]}
-      height="100%"
-      backgroundImage={`url(${image})`}
-      backgroundSize="cover"
-      backgroundPosition="center"
+    //   py={[0, "10vh"]}
+    //   px={[0, "15%"]}
+    //   height="100%"
+    //   backgroundImage={`url(${image})`}
+    //   backgroundSize="cover"
+    //   backgroundPosition="center"
     >
-      <FlexRow alignItems="stretch" flexGrow={1}>
+      {/* <FlexRow alignItems="stretch" flexGrow={1}>
         <FlexColumn
           justifyContent="flex-end"
           display={["none", "none", "flex"]}
@@ -125,7 +125,7 @@ const Login = () => {
         >
           {renderForm()}
         </FlexRow>
-      </FlexRow>
+      </FlexRow> */}
     </FlexColumn>
   );
 };

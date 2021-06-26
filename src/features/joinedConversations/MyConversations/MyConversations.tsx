@@ -140,13 +140,6 @@ const MyConversations = () => {
     <>
       <FlexRow justifyContent="space-between" mx={6} marginBottom={1}>
         <Heading variant={HeadingVariants.INVERSE}>Groupings</Heading>
-        <Icon
-          icon={Icons.Add}
-          color={"onPrimary"}
-          onClick={openOverlay}
-          title="Join conversation"
-          clickable
-        />
       </FlexRow>
 
       <ScrollView ref={containerRef}>

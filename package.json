@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@fullcalendar/icalendar": "^5.8.0",
     "@shopify/react-csrf": "^2.0.0",
     "@types/emoji-mart": "^2.11.0",
     "@types/invariant": "^2.2.31",

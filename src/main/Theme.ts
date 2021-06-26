@@ -126,8 +126,8 @@ const shadows = [
 // Custom
 const custom = {
   dark: false,
-  companyName: "Ascademy",
-  tagLine: "World-Class APIs for In-App Chat"
+  companyName: "Nexus",
+  tagLine: "Connecting the future"
 } as const;
 
 // Exports
